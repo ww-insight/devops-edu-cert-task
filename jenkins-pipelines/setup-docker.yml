@@ -1,0 +1,24 @@
+---
+- name: ensure docker daemon setup
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: ensure docker is installed
+    apt:
+      name: docker.io
+      state: present
+
+  - name: ensure line ExecStart in docker.service exists
+    lineinfile:
+      path: /lib/systemd/system/docker.service
+      regexp: 'ExecStart=(.*)'
+      line: ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock --insecure-registry 10.129.0.23:8123
+    notify: restart docker
+
+  handlers:
+  - name: restart docker
+    systemd:
+      name: docker
+      state: restarted
+      daemon_reload: yes

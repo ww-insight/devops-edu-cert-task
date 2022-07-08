@@ -1,0 +1,59 @@
+pipeline{
+  agent any
+
+  stages {
+    stage ('git clone') {
+      steps {
+        git 'https://github.com/ww-insight/https://github.com/ww-insight/devops-edu-cert-task.git.git'
+      }
+    }
+    stage ('Terraform VM') {
+      agent any
+      steps {
+        sh '''
+          cd devops-edu-cert-task/jenkins-pipeline
+          terraform init terraform apply -var-file /var/jenkins_home/secrets/secret.tfvar -auto-approve
+        '''
+      }
+    }
+    stage ('apply Ansible playbook') {
+      steps {
+        sh 'ansible-playbook setup-docker.yml -i hosts.ini'
+      }
+    }
+    stage ('build container') {
+      steps {
+        docker.withServer('tcp://devops-builder:4243') {
+          docker.image('maven:3.3.3-jdk-8').inside {
+            git 'https://github.com/ww-insight/devops-edu-11-boxfuse.git'
+            sh 'mvn package -f devops-edu-11-boxfuse'
+          }
+          docker.build("boxfuse").push()
+        }
+      }
+    }
+    /*
+    stage ('push container') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'docker_hub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+           sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+        }
+        sh 'docker push wwbel/boxfuse'
+      }
+    }
+    stage ('up container') {
+      steps{
+
+        sshagent(['34abdab6-497c-42e3-b62e-989b4b369084']) {
+          sh '''
+                [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh
+                ssh-keyscan -t rsa,dsa 10.129.0.4 >> ~/.ssh/known_hosts
+                ssh root@10.129.0.4 'docker ps --filter "ancestor=wwbel/boxfuse" -q | xargs docker stop & docker pull wwbel/boxfuse && docker run -d -p 8080:8080 wwbel/boxfuse'
+          '''
+
+        }
+      }
+    }*/
+  }
+
+}

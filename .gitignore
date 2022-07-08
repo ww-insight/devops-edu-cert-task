@@ -1,0 +1,10 @@
+secret.tfvar
+/.terraform/
+/.terraform.lock.hcl
+/terraform.tfstate
+/terraform.tfstate.backup
+/.terraform.tfstate.lock.info
+/jenkins-pipelines/.terraform/
+/jenkins-pipelines/.terraform.lock.hcl
+/jenkins-pipelines/terraform.tfstate
+/jenkins-pipelines/terraform.tfstate.backup
