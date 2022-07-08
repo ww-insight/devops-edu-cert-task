@@ -24,6 +24,7 @@ pipeline{
       steps {
         sh '''
           cd jenkins-pipelines
+          export ANSIBLE_HOST_KEY_CHECKING=False
           ansible-playbook setup-docker.yml -i hosts.ini
         '''
       }
