@@ -66,11 +66,17 @@ resource "yandex_compute_instance" "devops-jenkins" {
     destination = "/tmp/secret.tfvar"
   }
 
+  provisioner "file" {
+    source = "Dockerfile"
+    destination = "Dockerfile"
+  }
+
   provisioner "remote-exec" {
     inline = [
        "sudo apt update"
       ,"sudo apt install docker.io -y"
-      ,"sudo docker run -u 0 -p 8080:8080 -p 50000:50000 -d -v /var/jenkins_home:/var/jenkins_home jenkins/jenkins:lts-jdk11"
+      ,"sudo docker build -t my-jenkins ."
+      ,"sudo docker run -u 0 -p 8080:8080 -p 50000:50000 -d -v /var/jenkins_home:/var/jenkins_home my-jenkins"
       ,"echo \"Waiting until Jenkins is started to print password...\""
       ,"sudo sh -c \"while [ ! -f /var/jenkins_home/secrets/initialAdminPassword ]; do sleep 3; done;\""
       ,"sudo mv /tmp/secret.tfvar /var/jenkins_home/secrets/secret.tfvar"
