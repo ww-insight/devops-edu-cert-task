@@ -27,7 +27,7 @@ pipeline{
           export $(grep -v '^#' /var/jenkins_home/secrets/secret.tfvar | tr -d "[:blank:]" | tr -d '"' | xargs -d '\n')
           cd jenkins-pipelines
           export ANSIBLE_HOST_KEY_CHECKING=False
-          ansible-playbook -i hosts.ini --private-key=$YA_KEY_FOLDER/.ssh/id_rsa setup-docker.yml
+          ansible-playbook -i hosts.ini --private-key=$YA_KEY_FOLDER/id_rsa setup-docker.yml
         '''
       }
     }
