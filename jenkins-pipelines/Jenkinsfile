@@ -11,7 +11,9 @@ pipeline{
       agent any
       steps {
         sh '''
-          cd devops-edu-cert-task/jenkins-pipelines
+          pwd
+          ls
+          cd jenkins-pipelines
           terraform init
           terraform apply -var-file /var/jenkins_home/secrets/secret.tfvar -auto-approve
         '''
