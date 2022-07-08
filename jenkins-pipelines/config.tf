@@ -37,7 +37,7 @@ resource "yandex_compute_instance" "devops-builder" {
   allow_stopping_for_update = true
 
   metadata = {
-    user-data = "#cloud-config\nusers:\n  - name: ${var.YA_USER}\n    groups: sudo\n    shell: /bin/bash\n    sudo: ['ALL=(ALL) NOPASSWD:ALL']\n    ssh-authorized-keys:\n      - ${file(local.YA_PUBKEY_FILE)}"
+    user-data = "#cloud-config\nusers:\n  - name: root\n    groups: sudo\n    shell: /bin/bash\n    sudo: ['ALL=(ALL) NOPASSWD:ALL']\n    ssh-authorized-keys:\n      - ${file(local.YA_PUBKEY_FILE)}"
   }
   boot_disk {
     initialize_params {
@@ -81,7 +81,7 @@ resource "yandex_compute_instance" "devops-prod" {
   allow_stopping_for_update = true
 
   metadata = {
-    user-data = "#cloud-config\nusers:\n  - name: ${var.YA_USER}\n    groups: sudo\n    shell: /bin/bash\n    sudo: ['ALL=(ALL) NOPASSWD:ALL']\n    ssh-authorized-keys:\n      - ${file(local.YA_PUBKEY_FILE)}"
+    user-data = "#cloud-config\nusers:\n  - name: root\n    groups: sudo\n    shell: /bin/bash\n    sudo: ['ALL=(ALL) NOPASSWD:ALL']\n    ssh-authorized-keys:\n      - ${file(local.YA_PUBKEY_FILE)}"
   }
   boot_disk {
     initialize_params {
