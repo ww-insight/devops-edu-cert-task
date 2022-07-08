@@ -30,7 +30,6 @@ provider "yandex" {
 
 ////////////////////////////////////////////   devops-builder VM  ///////////////////////////////////////
 resource "yandex_compute_instance" "devops-builder" {
-  depends_on = [null_resource.ssh-keygen]
 
   name = "devops-builder"
   hostname = "devops-builder"
@@ -75,7 +74,6 @@ resource "yandex_compute_instance" "devops-builder" {
 
 ////////////////////////////////////////////   devops-prod VM  ///////////////////////////////////////
 resource "yandex_compute_instance" "devops-prod" {
-  depends_on = [null_resource.ssh-keygen]
 
   name = "devops-prod"
   hostname = "devops-prod"
