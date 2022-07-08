@@ -11,6 +11,7 @@ pipeline{
       agent any
       steps {
         sh '''
+          export $(grep -v '^#' /var/jenkins_home/secrets/secret.tfvar | tr -d "[:blank:]" | xargs -d '\n')
           mkdir $YA_KEY_FOLDER
           ssh-keygen -N \"\" -f $YA_KEY_FOLDER
           terraform init
