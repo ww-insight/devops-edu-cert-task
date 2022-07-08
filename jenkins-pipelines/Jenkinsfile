@@ -13,7 +13,7 @@ pipeline{
         sh '''
           export $(grep -v '^#' /var/jenkins_home/secrets/secret.tfvar | tr -d "[:blank:]" | tr -d '"' | xargs -d '\n')
           mkdir -p $YA_KEY_FOLDER
-          if [ ! -f $YA_KEY_FOLDER/id_rsa ]; then ssh-keygen -N \"\" -f $YA_KEY_FOLDER/id_rsa; fi
+          if [ ! -f $YA_KEY_FOLDER/id_rsa ]; then ssh-keygen -N '' -f $YA_KEY_FOLDER/id_rsa; fi
           cd jenkins-pipelines
           terraform init
           terraform apply -var-file /var/jenkins_home/secrets/secret.tfvar -auto-approve
@@ -22,7 +22,10 @@ pipeline{
     }
     stage ('apply Ansible playbook') {
       steps {
-        sh 'ansible-playbook setup-docker.yml -i hosts.ini'
+        sh '''
+          cd jenkins-pipelines
+          ansible-playbook setup-docker.yml -i hosts.ini
+        '''
       }
     }
     stage ('build container') {
