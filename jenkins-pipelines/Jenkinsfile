@@ -11,9 +11,8 @@ pipeline{
       agent any
       steps {
         sh '''
-          pwd
-          ls
-          cd jenkins-pipelines
+          mkdir $YA_KEY_FOLDER
+          ssh-keygen -N \"\" -f $YA_KEY_FOLDER
           terraform init
           terraform apply -var-file /var/jenkins_home/secrets/secret.tfvar -auto-approve
         '''

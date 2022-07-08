@@ -27,15 +27,6 @@ provider "yandex" {
   folder_id = var.YA_FOLDER
   zone      = "ru-central1-b"
 }
-////////////////////////////////////////////      ssh-keygen      //////////////////////////////
-resource "null_resource" "ssh-keygen" {
-  provisioner "local-exec" {
-    command = "mkdir ${var.YA_KEY_FOLDER}"
-  }
-  provisioner "local-exec" {
-    command = "ssh-keygen -N \"\" -f ${var.YA_KEY_FOLDER}"
-  }
-}
 
 ////////////////////////////////////////////   devops-builder VM  ///////////////////////////////////////
 resource "yandex_compute_instance" "devops-builder" {
