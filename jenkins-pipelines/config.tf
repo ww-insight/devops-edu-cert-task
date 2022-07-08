@@ -59,7 +59,7 @@ resource "yandex_compute_instance" "devops-builder" {
 
   connection {
     type     = "ssh"
-    user     = var.YA_USER
+    user     = root
     private_key = "${file(local.YA_PRIVATEKEY_FILE)}"
     host     = self.network_interface.0.nat_ip_address
   }
@@ -103,7 +103,7 @@ resource "yandex_compute_instance" "devops-prod" {
 
   connection {
     type     = "ssh"
-    user     = var.YA_USER
+    user     = root
     private_key = "${file(local.YA_PRIVATEKEY_FILE)}"
     host     = self.network_interface.0.nat_ip_address
   }
