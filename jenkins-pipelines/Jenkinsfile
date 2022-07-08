@@ -13,7 +13,7 @@ pipeline{
         sh '''
           export $(grep -v '^#' /var/jenkins_home/secrets/secret.tfvar | tr -d "[:blank:]" | tr -d '"' | xargs -d '\n')
           mkdir -p $YA_KEY_FOLDER
-          if [ ! $YA_KEY_FOLDER/id_rsa ]; then ssh-keygen -N \"\" -f $YA_KEY_FOLDER; fi
+          if [ ! -f $YA_KEY_FOLDER/id_rsa ]; then ssh-keygen -N \"\" -f $YA_KEY_FOLDER/id_rsa; fi
           terraform init
           terraform apply -var-file /var/jenkins_home/secrets/secret.tfvar -auto-approve
         '''
