@@ -30,7 +30,10 @@ provider "yandex" {
 ////////////////////////////////////////////      ssh-keygen      //////////////////////////////
 resource "null_resource" "ssh-keygen" {
   provisioner "local-exec" {
-    command = ["ssh-keygen -N \"\" -f ${var.YA_KEY_FOLDER}"]
+    command = "mkdir ${var.YA_KEY_FOLDER}"
+  }
+  provisioner "local-exec" {
+    command = "ssh-keygen -N \"\" -f ${var.YA_KEY_FOLDER}"
   }
 }
 

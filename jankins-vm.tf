@@ -71,6 +71,16 @@ resource "yandex_compute_instance" "devops-jenkins" {
     destination = "Dockerfile"
   }
 
+  provisioner "file" {
+    source = "terraform"
+    destination = "terraform"
+  }
+
+  provisioner "file" {
+    source = "terraformrc"
+    destination = "terraformrc"
+  }
+
   provisioner "remote-exec" {
     inline = [
        "sudo apt update"
