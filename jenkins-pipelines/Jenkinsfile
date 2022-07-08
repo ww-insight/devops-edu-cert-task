@@ -4,7 +4,7 @@ pipeline{
   stages {
     stage ('git clone') {
       steps {
-        git 'https://github.com/ww-insight/https://github.com/ww-insight/devops-edu-cert-task.git.git'
+        git 'https://github.com/ww-insight/devops-edu-cert-task.git'
       }
     }
     stage ('Terraform VM') {
