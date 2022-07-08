@@ -17,6 +17,7 @@ pipeline{
           cd jenkins-pipelines
           terraform init
           terraform apply -var-file /var/jenkins_home/secrets/secret.tfvar -auto-approve
+          rm /root/.ssh/known_hosts
         '''
       }
     }
