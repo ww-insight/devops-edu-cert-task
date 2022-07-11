@@ -49,15 +49,19 @@ pipeline{
       }
     }
     stage ('up container') {
-      steps{
-        props = new Properties()
-        File propertiesFile = new File("/var/jenkins_home/secrets/secret.tfvar")
-        props.load(propertiesFile.newDataInputStream())
+      steps
+      {
+        script
+        {
+          props = new Properties()
+          File propertiesFile = new File("/var/jenkins_home/secrets/secret.tfvar")
+          props.load(propertiesFile.newDataInputStream())
 
-        docker.withServer('tcp://devops-prod:4243') {
-          docker.withRegistry('https://cr.yandex', 'ya-cloud-cred'){
-            def fields = env.getEnvironment()
-            docker.image("cr.yandex/${props['YA_DOCKER_REG'].replaceAll('"', '')}/boxfuse").run('-p 8080:8080')
+          docker.withServer('tcp://devops-prod:4243') {
+            docker.withRegistry('https://cr.yandex', 'ya-cloud-cred'){
+              def fields = env.getEnvironment()
+              docker.image("cr.yandex/${props['YA_DOCKER_REG'].replaceAll('"', '')}/boxfuse").run('-p 8080:8080')
+            }
           }
         }
       }
