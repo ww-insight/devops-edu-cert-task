@@ -17,6 +17,6 @@ Creating Jenkins VM
 Setting up Jenkins
 ----------------------------------
 1. Login into Jenkins using URL and password from terraform logs
-2. Install recommended plugins + SSH plugin + Docker Pipeline plugin
-3. Create Jenkins Pipeline with `jenkins-pipelines/Jenkinsfile`
-
+2. Install recommended plugins + SSH plugin + Docker plugin + Docker Pipeline plugin
+3. Add `ya-cloud-cred` Jenkins creds with username `oauth` and yandex cloud token as a password
+4. Create Jenkins Pipeline with `jenkins-pipelines/Jenkinsfile`
