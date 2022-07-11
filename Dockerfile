@@ -5,3 +5,4 @@ RUN chmod +x /bin/terraform
 COPY terraformrc /root/.terraformrc
 RUN apt update
 RUN apt install ansible -y
+RUN apt install docker.io -y
