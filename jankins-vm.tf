@@ -25,8 +25,16 @@ provider "yandex" {
   folder_id = var.YA_FOLDER
   zone      = "ru-central1-b"
 }
+
+////////////////////////////////////////////   container registry  ///////////////////////////////////////
+resource "yandex_container_registry" "devops-cert" {
+  name = "devops-cert"
+}
+
 ////////////////////////////////////////////   devops-jenkins VM  ///////////////////////////////////////
 resource "yandex_compute_instance" "devops-jenkins" {
+
+  depends_on = [yandex_container_registry.devops-cert]
 
   name = "devops-jenkins"
   hostname = "devops-jenkins"
@@ -63,7 +71,7 @@ resource "yandex_compute_instance" "devops-jenkins" {
 
   provisioner "file" {
     source = "secret.tfvar"
-    destination = "/tmp/secret.tfvar"
+    destination = "secret.tfvar"
   }
 
   provisioner "file" {
@@ -89,7 +97,9 @@ resource "yandex_compute_instance" "devops-jenkins" {
       ,"sudo docker run -u 0 -p 8080:8080 -p 50000:50000 -d -v /var/jenkins_home:/var/jenkins_home my-jenkins"
       ,"echo \"Waiting until Jenkins is started to print password...\""
       ,"sudo sh -c \"while [ ! -f /var/jenkins_home/secrets/initialAdminPassword ]; do sleep 3; done;\""
-      ,"sudo mv /tmp/secret.tfvar /var/jenkins_home/secrets/secret.tfvar"
+      ,"sudo echo '' >> secret.tfvar"
+      ,"sudo echo 'YA_DOCKER_REG=\"${yandex_container_registry.devops-cert.id}\"' >> secret.tfvar"
+      ,"sudo mv secret.tfvar /var/jenkins_home/secrets/secret.tfvar"
       ,"echo \"Jenkins pass:\""
       ,"sudo cat /var/jenkins_home/secrets/initialAdminPassword"
     ]
