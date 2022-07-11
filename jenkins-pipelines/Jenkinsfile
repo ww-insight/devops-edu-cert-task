@@ -38,7 +38,7 @@ pipeline{
           export $(grep -v '^#' /var/jenkins_home/secrets/secret.tfvar | tr -d "[:blank:]" | tr -d '"' | xargs -d '\n')
         '''
         script{
-          docker.withServer('tcp://devops-builder:4243', credentials("ya-cloud-cred") {
+          docker.withServer('tcp://devops-builder:4243', credentials("ya-cloud-cred")) {
             docker.image('maven:3.3.3-jdk-8').inside {
               git 'https://github.com/ww-insight/devops-edu-11-boxfuse.git'
               sh 'mvn package -f devops-edu-11-boxfuse'
