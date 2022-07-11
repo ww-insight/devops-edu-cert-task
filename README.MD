@@ -20,3 +20,11 @@ Setting up Jenkins
 2. Install recommended plugins + Docker plugin + Docker Pipeline plugin
 3. Add `ya-cloud-cred` Jenkins creds with username `oauth` and yandex cloud token as a password
 4. Create Jenkins Pipeline with `jenkins-pipelines/Jenkinsfile`
+5. Approve signatures:
+
+        method java.util.Properties load java.io.InputStream
+        method org.jenkinsci.plugins.workflow.support.actions.EnvironmentAction getEnvironment
+        new java.io.File java.lang.String
+        new java.util.Properties
+        staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods newDataInputStream java.io.File
+6. Run Pipeline
