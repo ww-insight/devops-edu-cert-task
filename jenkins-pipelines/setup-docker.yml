@@ -16,9 +16,15 @@
       line: ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock --insecure-registry 10.129.0.23:8123
     notify: restart docker
 
+  - name: ensure docker container boxfuse is absent
+    docker_container:
+      name: boxfuse
+      state: absent
+
   handlers:
   - name: restart docker
     systemd:
       name: docker
       state: restarted
       daemon_reload: yes
+
