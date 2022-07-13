@@ -102,9 +102,6 @@ resource "yandex_compute_instance" "devops-jenkins" {
       ,"sudo mv secret.tfvar /var/jenkins_home/secrets/secret.tfvar"
       ,"echo \"Jenkins pass:\""
       ,"sudo cat /var/jenkins_home/secrets/initialAdminPassword"
-      ,"echo \"http://admin:$(cat /var/jenkins_home/secrets/initialAdminPassword)@localhost:8080/credentials/store/system/domain/_/createCredentials\" "
-      ,"echo 'json={\": \"0\", \"credentials\": { \"scope\": \"GLOBAL\", \"id\": \"ya-cloud-cred\", \"username\": \"oauth\", \"password\": \"${var.YA_TOKEN}\", \"description\": \"ya-cloud-cred\", \"$class\": \"com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl\"} }'"
-      ,"curl -X POST \"http://admin:$(cat /var/jenkins_home/secrets/initialAdminPassword)@localhost:8080/credentials/store/system/domain/_/createCredentials\" --data-urlencode 'json={\": \"0\", \"credentials\": { \"scope\": \"GLOBAL\", \"id\": \"ya-cloud-cred\", \"username\": \"oauth\", \"password\": \"${var.YA_TOKEN}\", \"description\": \"ya-cloud-cred\", \"$class\": \"com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl\"} }'"
     ]
   }
 }
