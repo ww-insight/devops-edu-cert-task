@@ -67,7 +67,7 @@ resource "yandex_compute_instance" "devops-builder" {
   provisioner "remote-exec" {
     inline = [
        "sudo apt update"
-      ,"sudo apt install python3"
+      ,"sudo apt install python3 -y"
     ]
   }
 }
@@ -111,7 +111,8 @@ resource "yandex_compute_instance" "devops-prod" {
   provisioner "remote-exec" {
     inline = [
        "sudo apt update"
-      ,"sudo apt install python3"
+      ,"sudo apt install python3 -y"
+      ,"sudo apt install python3-pip -y"
       ,"pip install docker"
     ]
   }
