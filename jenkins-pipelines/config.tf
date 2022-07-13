@@ -112,6 +112,7 @@ resource "yandex_compute_instance" "devops-prod" {
     inline = [
        "sudo apt update"
       ,"sudo apt install python3"
+      ,"pip install docker"
     ]
   }
 }
